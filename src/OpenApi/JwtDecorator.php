@@ -31,7 +31,7 @@ final class JwtDecorator implements OpenApiFactoryInterface
                                                        'properties' => [
                                                            'username' => [
                                                                'type' => 'string',
-                                                               'example' => 'admin@bilemo.com',
+                                                               'example' => 'client@bilemo.com',
                                                            ],
                                                            'password' => [
                                                                'type' => 'string',
