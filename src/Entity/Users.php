@@ -24,8 +24,12 @@ class Users
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank (message: "L'email est obligatoire")]
     #[Assert\Length (min: 1, max: 255, minMessage: "L'email doit faire au moins {{limit}} caractères", maxMessage: "L'email doit faire au maximum {{limit}} caractères")]
-    #[Assert\Email( message: "L'e-mail {{ value }} n'est pas un e-mail valide.")]
+    #[Assert\Email(message: "L'e-mail {{ value }} n'est pas un e-mail valide.")]
     private ?string $email = null;
+
+    #[ORM\ManyToOne(inversedBy: 'users')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Client $client = null;
 
     public function getId(): ?int
     {
@@ -52,6 +56,18 @@ class Users
     public function setEmail(string $email): self
     {
         $this->email = $email;
+
+        return $this;
+    }
+
+    public function getClient(): ?Client
+    {
+        return $this->client;
+    }
+
+    public function setClient(?Client $client): self
+    {
+        $this->client = $client;
 
         return $this;
     }
