@@ -11,10 +11,17 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
-#[ApiResource(operations: [
-    new Get(),
-    new GetCollection(),
-])]
+#[ApiResource(
+        operations: [
+        new Get(),
+        new GetCollection(),
+    ],
+    cacheHeaders: [
+        'max_age' => 60,
+        'shared_max_age' => 120,
+        'vary' => ['Authorization', 'Accept-Language']
+    ]
+)]
 class Product
 {
     #[ORM\Id]

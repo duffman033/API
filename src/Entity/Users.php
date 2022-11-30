@@ -8,7 +8,13 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UsersRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    cacheHeaders: [
+        'max_age' => 60,
+        'shared_max_age' => 120,
+        'vary' => ['Authorization', 'Accept-Language']
+    ]
+)]
 class Users
 {
     #[ORM\Id]
@@ -24,7 +30,7 @@ class Users
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank (message: "L'email est obligatoire")]
     #[Assert\Length (min: 1, max: 255, minMessage: "L'email doit faire au moins {{limit}} caractères", maxMessage: "L'email doit faire au maximum {{limit}} caractères")]
-    #[Assert\Email( message: "L'e-mail {{ value }} n'est pas un e-mail valide.")]
+    #[Assert\Email(message: "L'e-mail {{ value }} n'est pas un e-mail valide.")]
     private ?string $email = null;
 
     public function getId(): ?int
