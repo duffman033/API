@@ -33,6 +33,7 @@ class AppFixtures extends Fixture
             $users = new Users;
             $users->setUsername('UserName ' . $i);
             $users->setEmail('email' . $i.'@gmail.com');
+            $users->setClient($client);
             $manager->persist($users);
         }
 
