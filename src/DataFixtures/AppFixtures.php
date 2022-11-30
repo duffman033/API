@@ -32,7 +32,7 @@ class AppFixtures extends Fixture
         for ($i = 0; $i < 20; $i++) {
             $users = new Users;
             $users->setUsername('UserName ' . $i);
-            $users->setEmail('email ' . $i.'@gmail.com');
+            $users->setEmail('email' . $i.'@gmail.com');
             $manager->persist($users);
         }
 
