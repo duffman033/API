@@ -5,6 +5,7 @@ namespace App\Entity;
 use ApiPlatform\Metadata\ApiResource;
 use App\Repository\UsersRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UsersRepository::class)]
@@ -13,7 +14,8 @@ use Symfony\Component\Validator\Constraints as Assert;
         'max_age' => 60,
         'shared_max_age' => 120,
         'vary' => ['Authorization', 'Accept-Language']
-    ]
+    ],
+    normalizationContext: ['groups' => ['user']]
 )]
 class Users
 {
@@ -25,12 +27,14 @@ class Users
     #[ORM\Column(length: 25)]
     #[Assert\NotBlank (message: "Le nom d'utilisateur est obligatoire")]
     #[Assert\Length (min: 1, max: 25, minMessage: "Le nom doit faire au moins {{limit}} caractères", maxMessage: "Le nom doit faire au maximum {{limit}} caractères")]
+    #[Groups('user')]
     private ?string $username = null;
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank (message: "L'email est obligatoire")]
     #[Assert\Length (min: 1, max: 255, minMessage: "L'email doit faire au moins {{limit}} caractères", maxMessage: "L'email doit faire au maximum {{limit}} caractères")]
     #[Assert\Email(message: "L'e-mail {{ value }} n'est pas un e-mail valide.")]
+    #[Groups('user')]
     private ?string $email = null;
 
     #[ORM\ManyToOne(inversedBy: 'users')]
