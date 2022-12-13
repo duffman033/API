@@ -11,13 +11,13 @@ use Symfony\Component\Security\Core\Security;
 
 class UserProcessor implements ProcessorInterface
 {
-    private $security;
-    private $doctrine;
 
-    public function __construct(private ProcessorInterface $persistProcessor, private ProcessorInterface $removeProcessor, Security $security, ManagerRegistry $doctrine)
-    {
-        $this->security = $security;
-        $this->doctrine = $doctrine;
+    public function __construct(
+        private ProcessorInterface $persistProcessor,
+        private ProcessorInterface $removeProcessor,
+        private Security $security,
+        private ManagerRegistry $doctrine
+    ) {
     }
 
     public function process($data, Operation $operation, array $uriVariables = [], array $context = [])
@@ -30,8 +30,7 @@ class UserProcessor implements ProcessorInterface
         $owner = $this->doctrine->getRepository(Client::class)->find($user);
         $data->setClient($owner);
 
-        $result = $this->persistProcessor->process($data, $operation, $uriVariables, $context);
-        return $result;
+        return $this->persistProcessor->process($data, $operation, $uriVariables, $context);
     }
 
 }
