@@ -28,12 +28,23 @@ class AppFixtures extends Fixture
             ->setPassword($this->userPasswordHasher->hashPassword($client, "password"));
         $manager->persist($client);
 
+        $client2 = new Client;
+        $client2
+            ->setEmail("client2@bilemo.com")
+            ->setRoles(["ROLE_USER"])
+            ->setPassword($this->userPasswordHasher->hashPassword($client2, "password"));
+        $manager->persist($client2);
+
         // Création des utilisateurs
         for ($i = 0; $i < 20; $i++) {
             $users = new Users;
             $users->setUsername('UserName ' . $i);
             $users->setEmail('email' . $i.'@gmail.com');
-            $users->setClient($client);
+            if ($i <= 10){
+                $users->setClient($client);
+            }else{
+                $users->setClient($client2);
+            }
             $manager->persist($users);
         }
 
